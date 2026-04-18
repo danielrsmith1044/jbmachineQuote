@@ -1,21 +1,26 @@
 # Render infrastructure-as-code: https://render.com/docs/blueprint-spec
 #
-# After pushing this file to a connected Git repo, create a new Blueprint on
-# Render, point it at the repo, and Render will provision the service and disk.
+# Free-tier demo configuration. IMPORTANT CAVEATS:
+# - Render's free plan has an EPHEMERAL filesystem with no persistent disk,
+#   so the SQLite database and uploaded drawings are wiped on every
+#   container restart (each deploy, each cold start after 15 min of idle).
+# - The app auto-seeds the starter materials catalog on each fresh DB, so
+#   cold starts land on a usable app — but any quotes or settings changes
+#   made during a session will be lost on the next restart.
+# - Free services also spin down after 15 min of inactivity; the first
+#   request after that takes ~30 seconds to wake up.
 #
-# IMPORTANT:
-# - A persistent disk is required; Render's web-service filesystem is
-#   ephemeral otherwise and both the SQLite database and uploaded drawings
-#   would be wiped on each deploy.
-# - A paid plan (Standard or higher) is required to attach a disk.
-# - Set AUTH_USER and AUTH_PASS in the Render dashboard after first deploy
-#   to enable HTTP basic auth.  Without these, the app is publicly readable.
+# To move to persistent storage later: change `plan: free` to `plan: standard`
+# and re-add the `disk:` block (see git history for the previous config).
+#
+# Set AUTH_USER and AUTH_PASS in the Render dashboard after first deploy to
+# require HTTP basic auth. Without them the URL is public.
 
 services:
   - type: web
     name: jbmachine-quoter
     runtime: node
-    plan: standard
+    plan: free
     region: oregon
     buildCommand: npm run build
     startCommand: npm start
@@ -26,13 +31,7 @@ services:
         value: "22"
       - key: NODE_ENV
         value: production
-      - key: DATA_DIR
-        value: /data
       - key: AUTH_USER
         sync: false # set in dashboard — leave blank to run open
       - key: AUTH_PASS
         sync: false # set in dashboard — leave blank to run open
-    disk:
-      name: quoter-data
-      mountPath: /data
-      sizeGB: 1

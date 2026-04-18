@@ -36,14 +36,28 @@ the environment; the server will create the tree on startup.
 
 ## Deploy to Render
 
-The repo ships with `render.yaml` so the service and persistent disk can be
-provisioned as a Blueprint.
+The repo ships with `render.yaml` so the service can be provisioned as a
+Blueprint. Current config targets the **free tier** for demo use — see caveats
+below before relying on it.
+
+**Free-tier caveats (important)**
+
+The free plan has an ephemeral filesystem — no persistent disk. That means:
+
+- The SQLite DB is recreated on every container restart (each deploy, each
+  cold start after 15 min idle). Any quotes, settings edits, or uploaded
+  drawings made during a session are wiped.
+- On every fresh DB, the app auto-seeds the starter materials catalog (~35
+  common stock items) so demos land on a usable app rather than an empty one.
+- Free services also spin down after 15 min idle — the first request after
+  that takes ~30 seconds to wake up.
+
+Fine for showing somebody the app. Not fine for real use. Upgrade path is
+below.
 
 **Prereqs**
 
-- Render account with a paid plan (**Standard or higher** — the free tier
-  cannot mount a persistent disk, so the database and uploaded drawings would
-  vanish on every deploy).
+- Render account (free tier is enough to demo).
 - Repo pushed to GitHub/GitLab and connected to Render.
 
 **Deploy**
@@ -71,29 +85,29 @@ Save; Render redeploys automatically. The app now requires HTTP Basic Auth on
 every request other than the health check. Leave either var blank to return
 to open mode (useful only for a staging URL behind a firewall).
 
-**Persistence and backups**
+**Upgrading to persistent storage**
 
-- SQLite DB → `/data/quoter.db`
-- Uploaded drawings → `/data/attachments/<quote_id>/...`
+When you're ready to actually use the app:
 
-Render doesn't back up disks. To back up, connect to the service's shell
-(`Shell` tab in the dashboard) and run:
+1. Edit `render.yaml`:
+   - Change `plan: free` → `plan: standard`
+   - Add back the `DATA_DIR` env var:
+     ```
+     - key: DATA_DIR
+       value: /data
+     ```
+   - Append a disk block under the service:
+     ```
+     disk:
+       name: quoter-data
+       mountPath: /data
+       sizeGB: 1
+     ```
+2. Commit + push. Render picks up the change and provisions the disk.
 
-```
-cd /data && tar czf /tmp/backup.tgz quoter.db attachments/
-```
+Cost after upgrade: ~$7/mo for the Standard web service + ~$0.25/mo for a
+1 GB disk. Render doesn't back up disks — for backups, SSH into the service
+via the `Shell` tab and `tar czf` the `/data` directory to an external host.
 
-Then download `/tmp/backup.tgz` via `curl` to an external host or use
-`rsync` to a machine you control. Schedule this with a cron job on your side
-if backups matter.
-
-**Sizing**
-
-1 GB is enough for tens of thousands of quotes plus a few hundred MB of
-drawings. Grow the disk from the Render dashboard when needed (Render can
-expand a disk without downtime, but cannot shrink it).
-
-**Cost (as of writing, verify in Render dashboard)**
-
-- Standard web service: ~$7/mo
-- 1 GB persistent disk: ~$0.25/mo
+Sizing: 1 GB is enough for tens of thousands of quotes plus a few hundred
+MB of drawings. Render can expand a disk without downtime.

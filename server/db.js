@@ -105,6 +105,57 @@ for (const [k, v] of Object.entries(DEFAULT_SETTINGS)) {
   insertSetting.run(k, v);
 }
 
+// Auto-seed starter catalog on an empty materials table. Matters most for
+// ephemeral deploys (Render free tier) where the DB is recreated on every
+// container start — without this, cold starts land on an empty app.
+try {
+  const count = db.prepare('SELECT COUNT(*) AS n FROM materials').get().n;
+  if (count === 0) {
+    const path = require('path');
+    const fs = require('fs');
+    const catalogPath = path.join(__dirname, 'starter-catalog.json');
+    if (fs.existsSync(catalogPath)) {
+      const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
+      const insMat = db.prepare(
+        `INSERT INTO materials (name, unit_of_measure, supplier, base_price, in_stock, notes)
+         VALUES (?, ?, ?, ?, ?, ?)`
+      );
+      const insTier = db.prepare(
+        'INSERT INTO material_pricing_tiers (material_id, min_quantity, max_quantity, price_per_unit) VALUES (?, ?, ?, ?)'
+      );
+      const tx = db.transaction((items) => {
+        for (const m of items) {
+          if (!m.name || !m.unit_of_measure) continue;
+          const info = insMat.run(
+            m.name,
+            m.unit_of_measure,
+            m.supplier || null,
+            Number(m.base_price || 0),
+            m.in_stock ? 1 : 0,
+            m.notes || null
+          );
+          if (Array.isArray(m.pricing_tiers)) {
+            for (const t of m.pricing_tiers) {
+              if (!Number.isFinite(Number(t.min_quantity))) continue;
+              if (!Number.isFinite(Number(t.price_per_unit))) continue;
+              insTier.run(
+                info.lastInsertRowid,
+                Number(t.min_quantity),
+                t.max_quantity == null ? null : Number(t.max_quantity),
+                Number(t.price_per_unit)
+              );
+            }
+          }
+        }
+      });
+      tx(catalog.materials || []);
+      console.log(`[db] seeded ${catalog.materials?.length || 0} starter materials on empty DB`);
+    }
+  }
+} catch (e) {
+  console.warn('[db] starter catalog auto-seed skipped:', e.message);
+}
+
 function allSettings() {
   const rows = db.prepare('SELECT key, value FROM settings').all();
   const out = {};
