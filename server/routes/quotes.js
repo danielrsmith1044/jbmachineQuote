@@ -144,8 +144,8 @@ router.post('/', (req, res) => {
     .prepare(
       `INSERT INTO quotes
         (reference, customer_name, job_name, drawing_number, date, status,
-         labor_type, labor_hours, labor_rate, labor_flat, markup_percent, notes)
-       VALUES (?, ?, ?, ?, COALESCE(?, date('now')), COALESCE(?, 'Draft'), ?, ?, ?, ?, ?, ?)`
+         setup_hours, per_piece_hours, labor_rate, markup_percent, notes)
+       VALUES (?, ?, ?, ?, COALESCE(?, date('now')), COALESCE(?, 'Draft'), ?, ?, ?, ?, ?)`
     )
     .run(
       reference,
@@ -154,10 +154,9 @@ router.post('/', (req, res) => {
       b.drawing_number || null,
       b.date || null,
       b.status || null,
-      b.labor_type || 'hourly',
-      Number(b.labor_hours || 0),
+      Number(b.setup_hours || 0),
+      Number(b.per_piece_hours || 0),
       Number(b.labor_rate || 0),
-      Number(b.labor_flat || 0),
       Number(b.markup_percent || 0),
       b.notes || null
     );
@@ -179,10 +178,9 @@ router.put('/:id', (req, res) => {
        drawing_number = ?,
        date = COALESCE(?, date),
        status = COALESCE(?, status),
-       labor_type = COALESCE(?, labor_type),
-       labor_hours = COALESCE(?, labor_hours),
+       setup_hours = COALESCE(?, setup_hours),
+       per_piece_hours = COALESCE(?, per_piece_hours),
        labor_rate = COALESCE(?, labor_rate),
-       labor_flat = COALESCE(?, labor_flat),
        markup_percent = COALESCE(?, markup_percent),
        notes = ?,
        converted_to_job = COALESCE(?, converted_to_job),
@@ -195,10 +193,9 @@ router.put('/:id', (req, res) => {
     b.drawing_number ?? null,
     b.date ?? null,
     b.status ?? null,
-    b.labor_type ?? null,
-    b.labor_hours == null ? null : Number(b.labor_hours),
+    b.setup_hours == null ? null : Number(b.setup_hours),
+    b.per_piece_hours == null ? null : Number(b.per_piece_hours),
     b.labor_rate == null ? null : Number(b.labor_rate),
-    b.labor_flat == null ? null : Number(b.labor_flat),
     b.markup_percent == null ? null : Number(b.markup_percent),
     b.notes ?? null,
     b.converted_to_job == null ? null : b.converted_to_job ? 1 : 0,
@@ -285,18 +282,17 @@ router.post('/:id/duplicate', (req, res) => {
     .prepare(
       `INSERT INTO quotes
         (reference, customer_name, job_name, drawing_number, date, status,
-         labor_type, labor_hours, labor_rate, labor_flat, markup_percent, notes)
-       VALUES (?, ?, ?, ?, date('now'), 'Draft', ?, ?, ?, ?, ?, ?)`
+         setup_hours, per_piece_hours, labor_rate, markup_percent, notes)
+       VALUES (?, ?, ?, ?, date('now'), 'Draft', ?, ?, ?, ?, ?)`
     )
     .run(
       newRef,
       src.customer_name,
       src.job_name,
       src.drawing_number,
-      src.labor_type,
-      src.labor_hours,
+      src.setup_hours,
+      src.per_piece_hours,
       src.labor_rate,
-      src.labor_flat,
       src.markup_percent,
       src.notes
     );

@@ -11,10 +11,9 @@ function blankQuote(settings) {
     drawing_number: '',
     date: new Date().toISOString().slice(0, 10),
     status: 'Draft',
-    labor_type: 'hourly',
-    labor_hours: 0,
+    setup_hours: 0,
+    per_piece_hours: 0,
     labor_rate: Number(settings?.default_labor_rate || 0),
-    labor_flat: 0,
     markup_percent: Number(settings?.default_markup_percent || 0),
     notes: '',
     quantities: [{ quantity: 1 }, { quantity: 10 }, { quantity: 100 }],
@@ -328,47 +327,36 @@ export default function QuoteBuilder() {
       <div className="card">
         <h2>Labor</h2>
         <div className="inline-row">
-          <SelectField
-            label="Type"
-            value={quote.labor_type}
-            options={[
-              { value: 'hourly', label: 'Hourly × hours' },
-              { value: 'flat', label: 'Flat rate' }
-            ]}
-            onChange={(v) => update({ labor_type: v })}
+          <Field
+            type="number"
+            label="Setup hours"
+            value={quote.setup_hours}
+            onChange={(v) => update({ setup_hours: Number(v || 0) })}
+            step="0.25"
           />
-          {quote.labor_type === 'hourly' ? (
-            <>
-              <Field
-                type="number"
-                label="Estimated hours"
-                value={quote.labor_hours}
-                onChange={(v) => update({ labor_hours: Number(v || 0) })}
-                step="0.25"
-              />
-              <Field
-                type="number"
-                label="Hourly rate"
-                value={quote.labor_rate}
-                onChange={(v) => update({ labor_rate: Number(v || 0) })}
-                step="0.01"
-              />
-              <div className="stat" style={{ padding: '8px 14px', minWidth: 140 }}>
-                <div className="label">Labor total</div>
-                <div className="value" style={{ fontSize: 18 }}>
-                  {fmtMoney(Number(quote.labor_hours || 0) * Number(quote.labor_rate || 0))}
-                </div>
-              </div>
-            </>
-          ) : (
-            <Field
-              type="number"
-              label="Flat rate"
-              value={quote.labor_flat}
-              onChange={(v) => update({ labor_flat: Number(v || 0) })}
-              step="0.01"
-            />
-          )}
+          <Field
+            type="number"
+            label="Per-piece hours"
+            value={quote.per_piece_hours}
+            onChange={(v) => update({ per_piece_hours: Number(v || 0) })}
+            step="0.25"
+          />
+          <Field
+            type="number"
+            label="Hourly rate ($/hr)"
+            value={quote.labor_rate}
+            onChange={(v) => update({ labor_rate: Number(v || 0) })}
+            step="0.01"
+          />
+          <div className="stat" style={{ padding: '8px 14px', minWidth: 160 }}>
+            <div className="label">Setup cost</div>
+            <div className="value" style={{ fontSize: 16 }}>
+              {fmtMoney(Number(quote.setup_hours || 0) * Number(quote.labor_rate || 0))}
+            </div>
+            <div className="small muted" style={{ marginTop: 4 }}>
+              {fmtMoney(Number(quote.per_piece_hours || 0) * Number(quote.labor_rate || 0))} / piece
+            </div>
+          </div>
         </div>
       </div>
 

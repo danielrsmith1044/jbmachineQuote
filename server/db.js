@@ -34,10 +34,9 @@ CREATE TABLE IF NOT EXISTS quotes (
   drawing_number TEXT,
   date TEXT NOT NULL DEFAULT (date('now')),
   status TEXT NOT NULL DEFAULT 'Draft',
-  labor_type TEXT NOT NULL DEFAULT 'hourly',
-  labor_hours REAL NOT NULL DEFAULT 0,
+  setup_hours REAL NOT NULL DEFAULT 0,
+  per_piece_hours REAL NOT NULL DEFAULT 0,
   labor_rate REAL NOT NULL DEFAULT 0,
-  labor_flat REAL NOT NULL DEFAULT 0,
   markup_percent REAL NOT NULL DEFAULT 0,
   notes TEXT,
   converted_to_job INTEGER NOT NULL DEFAULT 0,
@@ -85,6 +84,10 @@ CREATE INDEX IF NOT EXISTS idx_quotes_status ON quotes(status);
 CREATE INDEX IF NOT EXISTS idx_quotes_customer ON quotes(customer_name);
 CREATE INDEX IF NOT EXISTS idx_tiers_material ON material_pricing_tiers(material_id);
 `);
+
+// Migrate existing databases: add new labor columns if missing
+try { db.exec('ALTER TABLE quotes ADD COLUMN setup_hours REAL NOT NULL DEFAULT 0'); } catch {}
+try { db.exec('ALTER TABLE quotes ADD COLUMN per_piece_hours REAL NOT NULL DEFAULT 0'); } catch {}
 
 // Seed default settings
 const DEFAULT_SETTINGS = {

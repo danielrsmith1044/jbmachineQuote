@@ -36,14 +36,14 @@ function loadQuote(id) {
 
 function calculateQuote(quote) {
   const { quantities = [], materials = [] } = quote;
-  const laborTotal =
-    quote.labor_type === 'flat'
-      ? Number(quote.labor_flat || 0)
-      : Number(quote.labor_hours || 0) * Number(quote.labor_rate || 0);
+  const setupHours = Number(quote.setup_hours || 0);
+  const perPieceHours = Number(quote.per_piece_hours || 0);
+  const laborRate = Number(quote.labor_rate || 0);
   const markup = Number(quote.markup_percent || 0) / 100;
 
   const rows = quantities.map((q) => {
     const qty = Number(q.quantity || 0);
+    const laborTotal = (setupHours + perPieceHours * qty) * laborRate;
     const materialLines = materials.map((m) => {
       const perUnitNeeded = Number(m.quantity_needed_per_unit || 0);
       const totalMatQty = perUnitNeeded * qty;
@@ -85,7 +85,7 @@ function calculateQuote(quote) {
     };
   });
 
-  return { labor_total: laborTotal, markup_percent: quote.markup_percent || 0, rows };
+  return { markup_percent: quote.markup_percent || 0, rows };
 }
 
 module.exports = { loadQuote, calculateQuote, materialUnitPrice };
