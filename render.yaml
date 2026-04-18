@@ -1,0 +1,38 @@
+# Render infrastructure-as-code: https://render.com/docs/blueprint-spec
+#
+# After pushing this file to a connected Git repo, create a new Blueprint on
+# Render, point it at the repo, and Render will provision the service and disk.
+#
+# IMPORTANT:
+# - A persistent disk is required; Render's web-service filesystem is
+#   ephemeral otherwise and both the SQLite database and uploaded drawings
+#   would be wiped on each deploy.
+# - A paid plan (Standard or higher) is required to attach a disk.
+# - Set AUTH_USER and AUTH_PASS in the Render dashboard after first deploy
+#   to enable HTTP basic auth.  Without these, the app is publicly readable.
+
+services:
+  - type: web
+    name: jbmachine-quoter
+    runtime: node
+    plan: standard
+    region: oregon
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /data
+      - key: AUTH_USER
+        sync: false # set in dashboard — leave blank to run open
+      - key: AUTH_PASS
+        sync: false # set in dashboard — leave blank to run open
+    disk:
+      name: quoter-data
+      mountPath: /data
+      sizeGB: 1

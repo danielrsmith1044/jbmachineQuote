@@ -1,0 +1,292 @@
+{
+  "note": "Starter catalog of common machine-shop stock. Prices are approximate retail for rough-order-of-magnitude quoting only. Review and edit all prices against your actual supplier invoices before using in quotes.",
+  "materials": [
+    {
+      "name": "6061-T6 Aluminum Round Bar 0.500in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 3.25,
+      "in_stock": true,
+      "notes": "Common general-purpose aluminum, easy to machine",
+      "pricing_tiers": [
+        { "min_quantity": 1, "max_quantity": 9, "price_per_unit": 3.25 },
+        { "min_quantity": 10, "max_quantity": 49, "price_per_unit": 2.90 },
+        { "min_quantity": 50, "max_quantity": null, "price_per_unit": 2.55 }
+      ]
+    },
+    {
+      "name": "6061-T6 Aluminum Round Bar 0.750in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 5.10,
+      "in_stock": true,
+      "pricing_tiers": [
+        { "min_quantity": 1, "max_quantity": 9, "price_per_unit": 5.10 },
+        { "min_quantity": 10, "max_quantity": 49, "price_per_unit": 4.55 },
+        { "min_quantity": 50, "max_quantity": null, "price_per_unit": 4.00 }
+      ]
+    },
+    {
+      "name": "6061-T6 Aluminum Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 7.50,
+      "in_stock": true,
+      "pricing_tiers": [
+        { "min_quantity": 1, "max_quantity": 9, "price_per_unit": 7.50 },
+        { "min_quantity": 10, "max_quantity": 49, "price_per_unit": 6.75 },
+        { "min_quantity": 50, "max_quantity": null, "price_per_unit": 5.95 }
+      ]
+    },
+    {
+      "name": "6061-T6 Aluminum Round Bar 1.250in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 11.25,
+      "in_stock": true
+    },
+    {
+      "name": "6061-T6 Aluminum Round Bar 1.500in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 15.80,
+      "in_stock": true,
+      "pricing_tiers": [
+        { "min_quantity": 1, "max_quantity": 9, "price_per_unit": 15.80 },
+        { "min_quantity": 10, "max_quantity": 49, "price_per_unit": 14.00 },
+        { "min_quantity": 50, "max_quantity": null, "price_per_unit": 12.25 }
+      ]
+    },
+    {
+      "name": "6061-T6 Aluminum Round Bar 2.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 27.00,
+      "in_stock": false,
+      "notes": "Order; lead time 2-3 days"
+    },
+    {
+      "name": "6061-T6 Aluminum Round Bar 3.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 58.00,
+      "in_stock": false
+    },
+    {
+      "name": "6061-T6 Aluminum Plate 0.250in",
+      "unit_of_measure": "sqft",
+      "supplier": "Online Metals",
+      "base_price": 14.50,
+      "in_stock": true
+    },
+    {
+      "name": "6061-T6 Aluminum Plate 0.500in",
+      "unit_of_measure": "sqft",
+      "supplier": "Online Metals",
+      "base_price": 27.00,
+      "in_stock": true
+    },
+    {
+      "name": "6061-T6 Aluminum Plate 1.000in",
+      "unit_of_measure": "sqft",
+      "supplier": "Online Metals",
+      "base_price": 52.00,
+      "in_stock": false
+    },
+    {
+      "name": "7075-T6 Aluminum Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 19.00,
+      "in_stock": false,
+      "notes": "Higher strength aerospace grade"
+    },
+    {
+      "name": "7075-T6 Aluminum Round Bar 2.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 62.00,
+      "in_stock": false
+    },
+    {
+      "name": "1018 CRS Round Bar 0.500in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 2.25,
+      "in_stock": true
+    },
+    {
+      "name": "1018 CRS Round Bar 0.750in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 3.60,
+      "in_stock": true
+    },
+    {
+      "name": "1018 CRS Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 5.40,
+      "in_stock": true
+    },
+    {
+      "name": "1018 CRS Round Bar 1.500in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 11.00,
+      "in_stock": true
+    },
+    {
+      "name": "1018 CRS Round Bar 2.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 18.50,
+      "in_stock": false
+    },
+    {
+      "name": "12L14 Leaded Steel Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 7.25,
+      "in_stock": true,
+      "notes": "Free-machining; good for high-volume screw machine work"
+    },
+    {
+      "name": "4140 Pre-Hard Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 12.50,
+      "in_stock": true,
+      "notes": "28-32 HRC as-delivered"
+    },
+    {
+      "name": "4140 Pre-Hard Round Bar 1.500in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 25.00,
+      "in_stock": false
+    },
+    {
+      "name": "4140 Pre-Hard Round Bar 2.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 42.00,
+      "in_stock": false
+    },
+    {
+      "name": "A36 HR Plate 0.250in",
+      "unit_of_measure": "sqft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 7.50,
+      "in_stock": true
+    },
+    {
+      "name": "A36 HR Plate 0.500in",
+      "unit_of_measure": "sqft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 14.25,
+      "in_stock": true
+    },
+    {
+      "name": "A36 HR Plate 1.000in",
+      "unit_of_measure": "sqft",
+      "supplier": "Metal Supermarkets",
+      "base_price": 28.50,
+      "in_stock": false
+    },
+    {
+      "name": "303 Stainless Round Bar 0.500in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 7.25,
+      "in_stock": true,
+      "notes": "Free-machining stainless"
+    },
+    {
+      "name": "303 Stainless Round Bar 0.750in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 12.00,
+      "in_stock": true
+    },
+    {
+      "name": "303 Stainless Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 18.50,
+      "in_stock": true
+    },
+    {
+      "name": "304 Stainless Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 17.25,
+      "in_stock": true
+    },
+    {
+      "name": "316 Stainless Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 24.50,
+      "in_stock": false,
+      "notes": "Corrosion-resistant; marine / medical"
+    },
+    {
+      "name": "360 Brass Round Bar 0.500in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 9.00,
+      "in_stock": true,
+      "notes": "Free-machining brass"
+    },
+    {
+      "name": "360 Brass Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 31.00,
+      "in_stock": false
+    },
+    {
+      "name": "932 Bronze Round Bar 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "Online Metals",
+      "base_price": 38.00,
+      "in_stock": false,
+      "notes": "Bearing bronze (SAE 660)"
+    },
+    {
+      "name": "Delrin (Acetal) Round 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "McMaster-Carr",
+      "base_price": 7.50,
+      "in_stock": true,
+      "notes": "Black or natural; low-friction plastic"
+    },
+    {
+      "name": "Delrin (Acetal) Round 2.000in",
+      "unit_of_measure": "ft",
+      "supplier": "McMaster-Carr",
+      "base_price": 24.00,
+      "in_stock": false
+    },
+    {
+      "name": "UHMW Round 1.000in",
+      "unit_of_measure": "ft",
+      "supplier": "McMaster-Carr",
+      "base_price": 5.00,
+      "in_stock": true
+    },
+    {
+      "name": "Socket Head Cap Screw 1/4-20 x 1in SS",
+      "unit_of_measure": "piece",
+      "supplier": "McMaster-Carr",
+      "base_price": 0.35,
+      "in_stock": true,
+      "pricing_tiers": [
+        { "min_quantity": 1, "max_quantity": 24, "price_per_unit": 0.35 },
+        { "min_quantity": 25, "max_quantity": 99, "price_per_unit": 0.28 },
+        { "min_quantity": 100, "max_quantity": null, "price_per_unit": 0.22 }
+      ]
+    }
+  ]
+}
