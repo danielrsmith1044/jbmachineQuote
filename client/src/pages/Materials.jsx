@@ -30,6 +30,10 @@ export default function Materials() {
     load();
   }, []);
 
+  useEffect(() => {
+    if (editing) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [editing]);
+
   async function save(m) {
     if (m.id) {
       await api.updateMaterial(m.id, m);
