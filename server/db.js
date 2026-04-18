@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS quotes (
   drawing_number TEXT,
   date TEXT NOT NULL DEFAULT (date('now')),
   status TEXT NOT NULL DEFAULT 'Draft',
-  setup_hours REAL NOT NULL DEFAULT 0,
-  per_piece_hours REAL NOT NULL DEFAULT 0,
+  setup_minutes REAL NOT NULL DEFAULT 0,
+  per_piece_minutes REAL NOT NULL DEFAULT 0,
   labor_rate REAL NOT NULL DEFAULT 0,
   markup_percent REAL NOT NULL DEFAULT 0,
   notes TEXT,
@@ -86,8 +86,8 @@ CREATE INDEX IF NOT EXISTS idx_tiers_material ON material_pricing_tiers(material
 `);
 
 // Migrate existing databases: add new labor columns if missing
-try { db.exec('ALTER TABLE quotes ADD COLUMN setup_hours REAL NOT NULL DEFAULT 0'); } catch {}
-try { db.exec('ALTER TABLE quotes ADD COLUMN per_piece_hours REAL NOT NULL DEFAULT 0'); } catch {}
+try { db.exec('ALTER TABLE quotes ADD COLUMN setup_minutes REAL NOT NULL DEFAULT 0'); } catch {}
+try { db.exec('ALTER TABLE quotes ADD COLUMN per_piece_minutes REAL NOT NULL DEFAULT 0'); } catch {}
 
 // Seed default settings
 const DEFAULT_SETTINGS = {

@@ -36,14 +36,14 @@ function loadQuote(id) {
 
 function calculateQuote(quote) {
   const { quantities = [], materials = [] } = quote;
-  const setupHours = Number(quote.setup_hours || 0);
-  const perPieceHours = Number(quote.per_piece_hours || 0);
+  const setupMinutes = Number(quote.setup_minutes || 0);
+  const perPieceMinutes = Number(quote.per_piece_minutes || 0);
   const laborRate = Number(quote.labor_rate || 0);
   const markup = Number(quote.markup_percent || 0) / 100;
 
   const rows = quantities.map((q) => {
     const qty = Number(q.quantity || 0);
-    const laborTotal = (setupHours + perPieceHours * qty) * laborRate;
+    const laborTotal = ((setupMinutes + perPieceMinutes * qty) / 60) * laborRate;
     const materialLines = materials.map((m) => {
       const perUnitNeeded = Number(m.quantity_needed_per_unit || 0);
       const totalMatQty = perUnitNeeded * qty;

@@ -144,7 +144,7 @@ router.post('/', (req, res) => {
     .prepare(
       `INSERT INTO quotes
         (reference, customer_name, job_name, drawing_number, date, status,
-         setup_hours, per_piece_hours, labor_rate, markup_percent, notes)
+         setup_minutes, per_piece_minutes, labor_rate, markup_percent, notes)
        VALUES (?, ?, ?, ?, COALESCE(?, date('now')), COALESCE(?, 'Draft'), ?, ?, ?, ?, ?)`
     )
     .run(
@@ -154,8 +154,8 @@ router.post('/', (req, res) => {
       b.drawing_number || null,
       b.date || null,
       b.status || null,
-      Number(b.setup_hours || 0),
-      Number(b.per_piece_hours || 0),
+      Number(b.setup_minutes || 0),
+      Number(b.per_piece_minutes || 0),
       Number(b.labor_rate || 0),
       Number(b.markup_percent || 0),
       b.notes || null
@@ -178,8 +178,8 @@ router.put('/:id', (req, res) => {
        drawing_number = ?,
        date = COALESCE(?, date),
        status = COALESCE(?, status),
-       setup_hours = COALESCE(?, setup_hours),
-       per_piece_hours = COALESCE(?, per_piece_hours),
+       setup_minutes = COALESCE(?, setup_minutes),
+       per_piece_minutes = COALESCE(?, per_piece_minutes),
        labor_rate = COALESCE(?, labor_rate),
        markup_percent = COALESCE(?, markup_percent),
        notes = ?,
@@ -193,8 +193,8 @@ router.put('/:id', (req, res) => {
     b.drawing_number ?? null,
     b.date ?? null,
     b.status ?? null,
-    b.setup_hours == null ? null : Number(b.setup_hours),
-    b.per_piece_hours == null ? null : Number(b.per_piece_hours),
+    b.setup_minutes == null ? null : Number(b.setup_minutes),
+    b.per_piece_minutes == null ? null : Number(b.per_piece_minutes),
     b.labor_rate == null ? null : Number(b.labor_rate),
     b.markup_percent == null ? null : Number(b.markup_percent),
     b.notes ?? null,
@@ -282,7 +282,7 @@ router.post('/:id/duplicate', (req, res) => {
     .prepare(
       `INSERT INTO quotes
         (reference, customer_name, job_name, drawing_number, date, status,
-         setup_hours, per_piece_hours, labor_rate, markup_percent, notes)
+         setup_minutes, per_piece_minutes, labor_rate, markup_percent, notes)
        VALUES (?, ?, ?, ?, date('now'), 'Draft', ?, ?, ?, ?, ?)`
     )
     .run(
@@ -290,8 +290,8 @@ router.post('/:id/duplicate', (req, res) => {
       src.customer_name,
       src.job_name,
       src.drawing_number,
-      src.setup_hours,
-      src.per_piece_hours,
+      src.setup_minutes,
+      src.per_piece_minutes,
       src.labor_rate,
       src.markup_percent,
       src.notes

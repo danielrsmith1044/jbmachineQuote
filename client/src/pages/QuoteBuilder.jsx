@@ -11,8 +11,8 @@ function blankQuote(settings) {
     drawing_number: '',
     date: new Date().toISOString().slice(0, 10),
     status: 'Draft',
-    setup_hours: 0,
-    per_piece_hours: 0,
+    setup_minutes: 0,
+    per_piece_minutes: 0,
     labor_rate: Number(settings?.default_labor_rate || 0),
     markup_percent: Number(settings?.default_markup_percent || 0),
     notes: '',
@@ -329,17 +329,17 @@ export default function QuoteBuilder() {
         <div className="inline-row">
           <Field
             type="number"
-            label="Setup hours"
-            value={quote.setup_hours}
-            onChange={(v) => update({ setup_hours: Number(v || 0) })}
-            step="0.25"
+            label="Setup minutes"
+            value={quote.setup_minutes}
+            onChange={(v) => update({ setup_minutes: Number(v || 0) })}
+            step="1"
           />
           <Field
             type="number"
-            label="Per-piece hours"
-            value={quote.per_piece_hours}
-            onChange={(v) => update({ per_piece_hours: Number(v || 0) })}
-            step="0.25"
+            label="Per-piece minutes"
+            value={quote.per_piece_minutes}
+            onChange={(v) => update({ per_piece_minutes: Number(v || 0) })}
+            step="1"
           />
           <Field
             type="number"
@@ -351,10 +351,10 @@ export default function QuoteBuilder() {
           <div className="stat" style={{ padding: '8px 14px', minWidth: 160 }}>
             <div className="label">Setup cost</div>
             <div className="value" style={{ fontSize: 16 }}>
-              {fmtMoney(Number(quote.setup_hours || 0) * Number(quote.labor_rate || 0))}
+              {fmtMoney((Number(quote.setup_minutes || 0) / 60) * Number(quote.labor_rate || 0))}
             </div>
             <div className="small muted" style={{ marginTop: 4 }}>
-              {fmtMoney(Number(quote.per_piece_hours || 0) * Number(quote.labor_rate || 0))} / piece
+              {fmtMoney((Number(quote.per_piece_minutes || 0) / 60) * Number(quote.labor_rate || 0))} / piece
             </div>
           </div>
         </div>
